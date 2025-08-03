@@ -1,26 +1,90 @@
+
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
 
--- Try to find Trade GUI
-local function freezeTrade()
-    for _, gui in pairs(PlayerGui:GetDescendants()) do
-        if gui:IsA("TextButton") and (gui.Text:lower():find("accept") or gui.Text:lower():find("confirm")) then
-            gui.AutoButtonColor = false
-            gui.TextTransparency = 0.7
-            gui.Active = false
-            gui.Text = "🔒 Frozen"
-        elseif gui:IsA("Frame") and gui.Name:lower():find("trade") then
-            gui.Visible = false -- Optional: Hide whole trade UI
-        end
-    end
-end
+-- Create ScreenGui
+local screenGui = Instance.new("ScreenGui", PlayerGui)
+screenGui.Name = "FreezeTradeGUI"
 
--- Run once and also every few seconds to catch new GUIs
-freezeTrade()
-while true do
-    task.wait(2)
-    pcall(freezeTrade)
-end
+-- Main Frame
+local frame = Instance.new("Frame", screenGui)
+frame.Size = UDim2.new(0, 350, 0, 250)
+frame.Position = UDim2.new(0.5, -175, 0.5, -125)
+frame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+frame.BorderSizePixel = 0
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 10)
 
--- Made by Uncle Script
+-- Title
+local title = Instance.new("TextLabel", frame)
+title.Size = UDim2.new(1, -40, 0, 40)
+title.Position = UDim2.new(0, 10, 0, 0)
+title.Text = "Freeze Trade (BETA)"
+title.Font = Enum.Font.GothamBold
+title.TextSize = 20
+title.TextColor3 = Color3.fromRGB(255, 255, 255)
+title.BackgroundTransparency = 1
+title.TextXAlignment = Enum.TextXAlignment.Left
+
+-- Close Button
+local closeBtn = Instance.new("TextButton", frame)
+closeBtn.Size = UDim2.new(0, 30, 0, 30)
+closeBtn.Position = UDim2.new(1, -35, 0, 5)
+closeBtn.Text = "X"
+closeBtn.Font = Enum.Font.GothamBold
+closeBtn.TextSize = 18
+closeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+closeBtn.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
+Instance.new("UICorner", closeBtn).CornerRadius = UDim.new(0, 6)
+closeBtn.MouseButton1Click:Connect(function()
+    screenGui:Destroy()
+end)
+
+-- Username TextBox
+local userBox = Instance.new("TextBox", frame)
+userBox.Size = UDim2.new(1, -40, 0, 40)
+userBox.Position = UDim2.new(0, 20, 0, 60)
+userBox.PlaceholderText = "Put Target Player's Username"
+userBox.Font = Enum.Font.Gotham
+userBox.TextSize = 16
+userBox.TextColor3 = Color3.new(0, 0, 0)
+userBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Instance.new("UICorner", userBox).CornerRadius = UDim.new(0, 6)
+
+-- Force Accept Button
+local acceptBtn = Instance.new("TextButton", frame)
+acceptBtn.Size = UDim2.new(1, -40, 0, 40)
+acceptBtn.Position = UDim2.new(0, 20, 0, 110)
+acceptBtn.Text = "AUTO FORCE TO ACCEPT/CONFIRM"
+acceptBtn.Font = Enum.Font.GothamBold
+acceptBtn.TextSize = 16
+acceptBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+acceptBtn.BackgroundColor3 = Color3.fromRGB(0, 170, 140)
+Instance.new("UICorner", acceptBtn).CornerRadius = UDim.new(0, 6)
+acceptBtn.MouseButton1Click:Connect(function()
+    print("Force trade triggered (simulate here).")
+end)
+
+-- Freeze Screen Button
+local freezeBtn = Instance.new("TextButton", frame)
+freezeBtn.Size = UDim2.new(1, -40, 0, 40)
+freezeBtn.Position = UDim2.new(0, 20, 0, 160)
+freezeBtn.Text = "FREEZE PLAYER SCREEN"
+freezeBtn.Font = Enum.Font.GothamBold
+freezeBtn.TextSize = 16
+freezeBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+freezeBtn.BackgroundColor3 = Color3.fromRGB(0, 130, 180)
+Instance.new("UICorner", freezeBtn).CornerRadius = UDim.new(0, 6)
+freezeBtn.MouseButton1Click:Connect(function()
+    print("Freeze screen for player (simulate here).")
+end)
+
+-- Credit
+local credit = Instance.new("TextLabel", frame)
+credit.Size = UDim2.new(1, 0, 0, 20)
+credit.Position = UDim2.new(0, 0, 1, -20)
+credit.Text = "Made by Uncle Script"
+credit.Font = Enum.Font.Gotham
+credit.TextSize = 14
+credit.TextColor3 = Color3.fromRGB(200, 200, 200)
+credit.BackgroundTransparency = 1
