@@ -1,0 +1,26 @@
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local PlayerGui = LocalPlayer:WaitForChild("PlayerGui")
+
+-- Try to find Trade GUI
+local function freezeTrade()
+    for _, gui in pairs(PlayerGui:GetDescendants()) do
+        if gui:IsA("TextButton") and (gui.Text:lower():find("accept") or gui.Text:lower():find("confirm")) then
+            gui.AutoButtonColor = false
+            gui.TextTransparency = 0.7
+            gui.Active = false
+            gui.Text = "🔒 Frozen"
+        elseif gui:IsA("Frame") and gui.Name:lower():find("trade") then
+            gui.Visible = false -- Optional: Hide whole trade UI
+        end
+    end
+end
+
+-- Run once and also every few seconds to catch new GUIs
+freezeTrade()
+while true do
+    task.wait(2)
+    pcall(freezeTrade)
+end
+
+-- Made by Uncle Script
